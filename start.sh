@@ -12,7 +12,7 @@ export STARCOMMAND_PATH=$(pwd)
 printf "\n\n •••••• Star Command (dev environnement manager) ••••••\n"
 
 ### First Install ? ... REQUIRED ####
-if [ -d $LARADOCK_PATH ]; then
+if [ ! -d $LARADOCK_PATH ]; then
 	printf "\n    ℹ️   Laradock is not installed. "
 	echo " First launch, we need to perform some pre-configuration actions:"
     printf "\n	📦    Downloading Laradock... \n"
@@ -57,21 +57,21 @@ do
             cd $LARADOCK_PATH
             docker-compose up -d nginx mysql 
             cd ../..
+            printf "\n  ✔ All Laradock docker machines are started.  \n"
 
             ;;
-        "> Stop")
-            cd $LARADOCK_PATH
-            # Stop all Dockers machines
-            docker-compose stop
-            cd ../..
-
-        ;;
         "Manage web projects")
 
             # Launch Project Manager
 			$CORE_PATH/project_manager.sh
 
             ;;
+        "Connect to Workspace (Composer, Gulp, Yarn, NPM, …)")
+            cd $LARADOCK_PATH
+            docker-compose exec workspace bash
+            cd ../..
+
+        ;;
         "Manage Dockers Containers")
 
             # Startup our Dockers machines
@@ -79,6 +79,11 @@ do
 
         ;;
         "Quit")
+            cd $LARADOCK_PATH
+            # Stop all Dockers machines
+            docker-compose stop
+            cd ../..
+            printf "\n  ✔ All Laradock docker machines are stopped.  \n"
             break
             ;;
         *) echo invalid option;;
