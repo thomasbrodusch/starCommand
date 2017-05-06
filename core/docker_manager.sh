@@ -6,10 +6,18 @@ select opt in "${options[@]}"
 do
     case $opt in
         
-        "List docker environnement up")
-
+        "List docker machines up")
+            cd $LARADOCK_PATH
             # List started Dockers machines
-			docker ps
+			docker-compose ps
+            cd ../..
+
+        ;;
+        "Close all docker machines")
+            cd $LARADOCK_PATH
+            # List started Dockers machines
+            docker-compose ps
+            cd ../..
 
         ;;
         "Quit")

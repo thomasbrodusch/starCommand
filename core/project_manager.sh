@@ -30,9 +30,9 @@ do
 				printf '\n ✔ Project "$newProject" created with success '
 				
 				# Nginx config file
-				cp laradock/nginx/sites/project-1.conf.example laradock/nginx/sites/$newProject.conf
-				sed -i -e "s/server_name .*/server_name $newProjectDevUrl;/g" laradock/nginx/sites/$newProject.conf
-				sed -i -e "s/root \/var\/www\/project.*/root \/var\/www\/$newProject\/public;/g" laradock/nginx/sites/$newProject.conf
+				cp $LARADOCK_PATH/nginx/sites/project-1.conf.example $LARADOCK_PATH/nginx/sites/$newProject.conf
+				sed -i -e "s/server_name .*/server_name $newProjectDevUrl;/g" $LARADOCK_PATH/nginx/sites/$newProject.conf
+				sed -i -e "s/root \/var\/www\/project.*/root \/var\/www\/$newProject\/public;/g" $LARADOCK_PATH/nginx/sites/$newProject.conf
 				
 				# Add custom domain to the hosts file:
 				printf "\nEdit hosts file..."

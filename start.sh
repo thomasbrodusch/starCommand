@@ -39,7 +39,7 @@ fi
 
 PS3=$'\n\n •••••• Star Command •••••• \n Please enter your choice: (press enter to see menu)'
 
-options=("> Start" "Manage web projects" "Manage Dockers Containers" "Quit")
+options=("> Start" "> Stop" "Manage web projects" "Manage Dockers Containers" "Quit")
 printf '\n'
 select opt in "${options[@]}"
 do
@@ -52,7 +52,7 @@ do
             cd ../..
 
             ;;
-        "Stop")
+        "> Stop")
             cd $LARADOCK_PATH
             # Stop all Dockers machines
             docker-compose stop
