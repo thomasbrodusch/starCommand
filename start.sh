@@ -1,26 +1,33 @@
 #!/bin/bash
 
 ## Config 
+export OSTYPE=$(uname)
 export CORE_PATH='./core'
 export LARADOCK_PATH='./core/laradock'
 export LARADOCK_GIT='https://github.com/laradock/laradock.git'
 export APPLICATION_PATH='\.\.\/\.\.\/projects\/'
 export PROJECTS_FOLDER_PATH='./projects'
+export STARCOMMAND_PATH=$(pwd)
 
 printf "\n\n •••••• Star Command (dev environnement manager) ••••••\n"
 
 ### First Install ? ... REQUIRED ####
-if [ ! -d $LARADOCK_PATH ]; then
-	printf "    ℹ️   Laradock is not installed. "
-	echo " First launch, we need to perform some pre-configuration actions..."
-    printf "	☁	️Downloading Laradock... 📦\n"
+if [ -d $LARADOCK_PATH ]; then
+	printf "\n    ℹ️   Laradock is not installed. "
+	echo " First launch, we need to perform some pre-configuration actions:"
+    printf "\n	📦    Downloading Laradock... \n"
 	
 	# Fetch Laradock
-	git clone $LARADOCK_GIT $LARADOCK_PATH
-	printf "	✔  Laradock installed with success \n"
+	#git clone $LARADOCK_GIT $LARADOCK_PATH
+	printf "\n	✔  Laradock installed with success \n"
+
+    # MacOS NTFS Shared folder fix — load files faster
+    if [ $OSTYPE == "Darwin" ]; then
+        $CORE_PATH/macOS_ntfs_fix.sh
+    fi
 
 else
-	printf "	✔ Laradock already installed.  \n"
+	printf "\n	✔ Laradock already installed.  \n"
 fi
 
 
@@ -48,7 +55,7 @@ do
     
             # Startup our Dockers machines
             cd $LARADOCK_PATH
-            docker-compose up -d nginx mysql
+            docker-compose up -d nginx mysql 
             cd ../..
 
             ;;
