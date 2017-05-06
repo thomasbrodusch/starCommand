@@ -1,5 +1,13 @@
 #!/bin/bash
 
+## Create projects/ folder
+if [ ! -d $PROJECTS_FOLDER_PATH ]; then
+	printf "    ℹ️   Projects/ folder not created. \n"
+	mkdir $PROJECTS_FOLDER_PATH
+	printf "	✔ 	️Projects/ folder created with success.\n\n"
+fi
+
+
 PS3=$'\n\n •••••• Star Command / 📦 Projects Manager •••••• \n Please enter your choice: (press enter to see menu)'
 options=("Add a new project" "List linked projects" "Quit")
 select opt in "${options[@]}"
@@ -9,10 +17,6 @@ do
             printf '\n Type the name of  new project, and press [ ENTER ]: '
 		    read newProject
 	            
-		    # Create projects/ folder
-		    if [ ! -d "projects" ]; then
-			mkdir projects
-		    fi
 	    
 	        if [ ! -d "$newProject" ]; then
 	        	printf '\n Type Github/Bitbucket URL to your project repository, and press [ ENTER ]: '
@@ -22,7 +26,7 @@ do
 			    read newProjectDevUrl
 		    
 				# Create new project folder 
-				git clone $newProjectRepository projects/$newProject
+				git clone $newProjectRepository $PROJECTS_FOLDER_PATH/$newProject
 				printf '\n ✔ Project "$newProject" created with success '
 				
 				# Nginx config file
@@ -40,7 +44,7 @@ do
 	    ;;
         "List linked projects")
             printf '\n\nCurrents projects :'
-            cd projects
+            cd $PROJECTS_FOLDER_PATH
             printf '\n'
             for i in $(ls -d */); do echo ${i}; done
             cd ..
